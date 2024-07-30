@@ -84,9 +84,11 @@ class DashboardController extends Controller
             }
         }
         // dd($res);
+        $total =  $carade + $menuju;
+
         $pie = [
             'ket' => ["Keluarga Carade'", "Menuju Keluarga Carade'"],
-            'graph' => [$carade, $menuju]
+            'graph' => [ceil(($carade / $total) * 100), ceil(($menuju / 100) * 100)]
         ];
         // dd($pie);
 

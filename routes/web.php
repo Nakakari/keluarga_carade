@@ -70,6 +70,14 @@ Route::post('/data_user', [UserController::class, 'store'])->name('user.store')-
 Route::put('/data_user/{id}', [UserController::class, 'update'])->middleware('is_admin');
 Route::delete('/data_user/{id}', [UserController::class, 'destroy'])->middleware('is_admin');
 
+// CALON PENGANTIN PEREMPUAN
+// Route::get('/data_user', [UserController::class, 'index'])->name('user.index')->middleware('is_admin');
+// Route::get('/data_user/create', [UserController::class, 'create'])->name('user.create')->middleware('is_admin');
+// Route::get('/data_user/{id}/edit', [UserController::class, 'edit'])->name('user.edit')->middleware('is_admin');
+// Route::post('/data_user', [UserController::class, 'store'])->name('user.store')->middleware('is_admin');
+// Route::put('/data_user/{id}', [UserController::class, 'update'])->middleware('is_admin');
+// Route::delete('/data_user/{id}', [UserController::class, 'destroy'])->middleware('is_admin');
+
 require __DIR__ . '/base/base-wilayah.php';
 
 // Route::middleware([

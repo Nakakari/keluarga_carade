@@ -254,7 +254,7 @@
                     backgroundColor: ['#0694a2', '#1c64f2', '#7e3af2'],
                     label: 'Dataset 1',
                 }, ],
-                labels: [<?php foreach ($pie['ket'] as $v) { ?> "<?= $v ?>",
+                labels: [<?php foreach ($pie['ket'] as $v) { ?> "<?= $v ?> (%)",
                     <?php } ?>
                 ],
             },
