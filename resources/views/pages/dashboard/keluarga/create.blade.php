@@ -98,6 +98,35 @@
                     </div>
 
                     <div class="sm:flex sm:justify-between sm:space-x-5 sm:w-full">
+                        <div class="flex flex-wrap -mx-3 mb-6 sm:w-full">
+                            <label for="id_jenis_bpjs"
+                                class="block uppercase tracking-wide text-black text-xs font-bold mb-4">
+                                Status Keikutsertaan BPJS :
+                            </label>
+                            <select name="id_jenis_bpjs"
+                                class="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none bg-gray-300 focus:bg-white select2-selection--single"
+                                id="id_jenis_bpjs" required>
+                                <option value=""></option>
+                                @foreach ($jenisBpjs as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="flex flex-wrap -mx-3 mb-6 sm:w-full">
+                            <label for="wilayah_kerja_puskesmas"
+                                class="block uppercase tracking-wide text-black text-xs font-bold mb-4">
+                                Pendapatan :
+                            </label>
+                            <input type="text" name="pendapatan" onkeypress="return numbersonly(this, event);"
+                                onchange="this.value = formatCurrency(this.value);"
+                                onblur="this.value = formatCurrency(this.value);"
+                                onkeyup="this.value = formatCurrency(this.value);"
+                                class="appearance-none block rounded py-3 px-4 leading-tight focus:outline-none bg-gray-300 focus:bg-white w-full text-end"
+                                id="pendapatan" placeholder="Pendapatan..." required>
+                        </div>
+                    </div>
+
+                    <div class="sm:flex sm:justify-between sm:space-x-5 sm:w-full">
                         <div class="flex flex-wrap -mx-3 mb-3 sm:mb-6 sm:w-full">
                             <label for="lat" class="block uppercase tracking-wide text-black text-xs font-bold mb-4">
                                 Titik kordinat :
@@ -114,7 +143,6 @@
                                 id="long" placeholder="Longitude..." required>
                         </div>
                     </div>
-
 
                     <div class="flex gap-3 w-full justify-end">
                         <button type="button"
@@ -154,6 +182,10 @@
                 placeholder: "Pilih Desa...",
             });
 
+            $("#id_jenis_bpjs").select2({
+                placeholder: "Pilih Keikutsertaan BPJS...",
+            });
+
             $(document).on("click", ".btn-get-location", function() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function(position) {
@@ -187,6 +219,8 @@
                         rt: $('input[name="rt"]').val(),
                         lat: $('input[name="lat"]').val(),
                         long: $('input[name="long"]').val(),
+                        id_jenis_bpjs: $('#id_jenis_bpjs').find(':selected').val(),
+                        pendapatan: $('input[name="pendapatan"]').val(),
                     },
                     dataType: "json",
                     success: function(response) {

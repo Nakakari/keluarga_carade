@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\DataKeluargaRequest;
 use App\Models\DataAnggotaKeluarga;
+use App\Models\JenisBpjs;
 use App\Models\Puskesmas;
 
 class DataKeluargaController extends Controller
@@ -29,11 +30,13 @@ class DataKeluargaController extends Controller
     {
         $title = "Data Keluarga";
         $puskesmas = Puskesmas::all();
-        return view('pages.dashboard.keluarga.create', compact(['title', 'puskesmas']));
+        $jenisBpjs = JenisBpjs::all();
+        return view('pages.dashboard.keluarga.create', compact(['title', 'puskesmas', 'jenisBpjs']));
     }
 
     public function store(Request $request)
     {
+        // dd($request);
         $check = DataKeluarga::where('nomor_kk', $request->nomor_kk)->count();
         if ($check > 0) {
             $res = [
@@ -48,6 +51,10 @@ class DataKeluargaController extends Controller
                 Puskesmas::updateOrCreate(
                     ['nama' => $request->wilayah_kerja_puskesmas]
                 );
+                $is_bpjs = 'Ya';
+                if ($request->id_jenis_bpjs == '' || $request->id_jenis_bpjs == 3) {
+                    $is_bpjs = 'Tidak';
+                }
                 DataKeluarga::create([
                     'id_users' => Auth::user()->id,
                     'nomor_kk' => $request->nomor_kk,
@@ -60,6 +67,9 @@ class DataKeluargaController extends Controller
                     'rt' => $request->rt,
                     'lat' => $request->lat,
                     'long' => $request->long,
+                    'is_bpjs' => $is_bpjs,
+                    'id_jenis_bpjs' => $request->id_jenis_bpjs,
+                    'pendapatan' => str_ireplace('.', '', $request->pendapatan),
                 ]);
             });
             $res = [
@@ -78,7 +88,8 @@ class DataKeluargaController extends Controller
         $title = "Data Keluarga";
         $keluarga = DataKeluarga::find($id);
         $puskesmas = Puskesmas::all();
-        return view('pages.dashboard.keluarga.edit', compact(['title', 'keluarga', 'puskesmas']));
+        $jenisBpjs = JenisBpjs::all();
+        return view('pages.dashboard.keluarga.edit', compact(['title', 'keluarga', 'puskesmas', 'jenisBpjs']));
     }
 
 
@@ -86,7 +97,16 @@ class DataKeluargaController extends Controller
     {
         DB::transaction(function () use ($id, $request) {
             $keluarga = DataKeluarga::find($id);
-            $keluarga->update($request->all());
+            $is_bpjs = 'Ya';
+            if ($request->id_jenis_bpjs == '' || $request->id_jenis_bpjs == 3) {
+                $is_bpjs = 'Tidak';
+            }
+            $form = array_merge($request->all(), [
+                'is_bpjs' => $is_bpjs,
+                'pendapatan' => str_ireplace('.', '', $request->pendapatan),
+            ]);
+            // dd($form);
+            $keluarga->update($form);
             Puskesmas::updateOrCreate(
                 ['nama' => $request->wilayah_kerja_puskesmas]
             );

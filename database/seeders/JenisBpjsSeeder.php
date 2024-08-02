@@ -15,9 +15,9 @@ class JenisBpjsSeeder extends Seeder
     public function run()
     {
         $datas = [
-            ['nama' => 'BPJS PBI'],
-            ['nama' => 'BPJS Non PBI'],
-            ['nama' => 'Tidak Terdaftar'],
+            ['name' => 'BPJS PBI'],
+            ['name' => 'BPJS Non PBI'],
+            ['name' => 'Tidak Terdaftar'],
         ];
         foreach ($datas as $data) {
             JenisBpjs::create($data);

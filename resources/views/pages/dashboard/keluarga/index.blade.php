@@ -22,6 +22,7 @@ use App\Models\Settings\wilayah\{Provinsi, Kelurahan, Kabupaten, Kecamatan};
                         <th class="text-center border border-slate-200">Kelurahan</th>
                         <th class="text-center border border-slate-200">RT/RW</th>
                         <th class="text-center border border-slate-200">Titik Kordinat</th>
+                        <th class="text-center border border-slate-200">Ketenagakerjaan</th>
                         <th class="text-center border border-slate-200">Aksi</th>
                     </tr>
                 </thead>
@@ -46,6 +47,11 @@ use App\Models\Settings\wilayah\{Provinsi, Kelurahan, Kabupaten, Kecamatan};
                             <td class="border border-slate-200 py-2 text-center">{{ $dt->rt }} / {{ $dt->rw }}
                             </td>
                             <td class="border border-slate-200 py-2">{{ $dt->lat }}, {{ $dt->long }}</td>
+                            <td class="border border-slate-200 py-2">
+                                Terdaftar BPJS : {{ $dt->is_bpjs }}<br>
+                                Jenis BPJS : {{ isset($dt->jenisBpjs) ? $dt->jenisBpjs->name : 'Belum Terdaftar' }}<br>
+                                Pendapatan : {{ number_format($dt->pendapatan, 0, ',', '.') }}
+                            </td>
                             <td class="border border-slate-200 py-2 text-center">
                                 @if (Auth::user()->roles === 'admin')
                                     <div class="flex gap-5 justify-center items-center">

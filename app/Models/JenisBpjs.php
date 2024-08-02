@@ -9,4 +9,5 @@ class JenisBpjs extends Model
 {
     use HasFactory;
     protected $table = 'jenis_bpjs';
+    protected $guarded = ['id'];
 }

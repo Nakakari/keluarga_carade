@@ -28,6 +28,9 @@ class DataKeluarga extends Model
         'rt',
         'lat',
         'long',
+        'id_jenis_bpjs',
+        'is_bpjs',
+        'pendapatan',
     ];
 
     public function data_anggota_keluarga()
@@ -38,5 +41,10 @@ class DataKeluarga extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_users', 'id');
+    }
+
+    public function jenisBpjs()
+    {
+        return $this->belongsTo(JenisBpjs::class, 'id_jenis_bpjs', 'id');
     }
 }
