@@ -112,13 +112,15 @@ class CatinController extends Controller
             $answerArray = is_array($answer) ? $answer : [$answer];
             foreach ($answerArray as $data) {
                 $data = str_ireplace('.', '', $data);
-                $detailKuisCatin = DetailQuisionerCatin::find($data);
+                $detailKuisCatin = DetailQuisionerCatin::where('id_quisioner_catin', $key);
+                $detailKuis = $detailKuisCatin->exists() ? $detailKuisCatin->first() : NULL;
+                $iddetailKuis = $detailKuisCatin->exists() ? $detailKuisCatin->where('id', $data)->first() : NULL;
                 AnswerCatin::create([
                     'id_calon_pengantin' => $request->id_calon_pengantin,
-                    'id_quisioner_catin' => $key,
-                    'id_detail_quisioner_catin' => $detailKuisCatin ? $data : null,
-                    'detail' => $detailKuisCatin->nama ?? $data,
-                    'point' => $detailKuisCatin->point ?? 0,
+                    'id_quisioner_catin' => !is_null($detailKuis) ? $detailKuis->id_quisioner_catin : $key,
+                    'id_detail_quisioner_catin' => !is_null($iddetailKuis) ? $iddetailKuis->id : null,
+                    'detail' => !is_null($iddetailKuis) ? $iddetailKuis->nama : $data,
+                    'point' => !is_null($iddetailKuis) ? $iddetailKuis->point : 0,
                     'id_user' => Auth::user()->id,
                 ]);
             }
@@ -145,13 +147,15 @@ class CatinController extends Controller
                 $answerArray = is_array($answer) ? $answer : [$answer];
                 foreach ($answerArray as $data) {
                     $data = str_ireplace('.', '', $data);
-                    $detailKuisCatin = DetailQuisionerCatin::find($data);
+                    $detailKuisCatin = DetailQuisionerCatin::where('id_quisioner_catin', $key);
+                    $detailKuis = $detailKuisCatin->exists() ? $detailKuisCatin->first() : NULL;
+                    $iddetailKuis = $detailKuisCatin->exists() ? $detailKuisCatin->where('id', $data)->first() : NULL;
                     AnswerCatin::create([
                         'id_calon_pengantin' => $request->id_calon_pengantin,
-                        'id_quisioner_catin' => $key,
-                        'id_detail_quisioner_catin' => $detailKuisCatin ? $data : null,
-                        'detail' => $detailKuisCatin->nama ?? $data,
-                        'point' => $detailKuisCatin->point ?? 0,
+                        'id_quisioner_catin' => !is_null($detailKuis) ? $detailKuis->id_quisioner_catin : $key,
+                        'id_detail_quisioner_catin' => !is_null($iddetailKuis) ? $iddetailKuis->id : null,
+                        'detail' => !is_null($iddetailKuis) ? $iddetailKuis->nama : $data,
+                        'point' => !is_null($iddetailKuis) ? $iddetailKuis->point : 0,
                         'id_user' => Auth::user()->id,
                     ]);
                 }

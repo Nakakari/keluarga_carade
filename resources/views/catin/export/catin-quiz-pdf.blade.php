@@ -61,7 +61,7 @@ use Carbon\Carbon;
         <tr>
             @foreach ($headPertanyaan as $pertanyaan)
                 <th class="border_top border_right border_bottom" style="text-align: center; vertical-align: top;">
-                    {{ $pertanyaan->nama }}</th>
+                    {{ $pertanyaan->nama }} </th>
             @endforeach
         </tr>
     </thead>
@@ -76,17 +76,18 @@ use Carbon\Carbon;
                 <td class="border_all_non_right">{{ strtoupper($v->alamat) }}</td>
                 <td class="border_all_non_right">{{ strtoupper($v->pekerjaan) }}</td>
                 <td class="border_all">{{ strtoupper($v->status_pendidikan) }}</td>
-                @foreach ($headPertanyaan as $pertanyaan)
-                    @if (count($v->kuisCatin) > 0)
-                        @foreach ($v->kuisCatin as $a)
+                @if (count($v->kuisCatin) > 0)
+                    @foreach ($v->kuisCatin as $a)
+                        @foreach ($headPertanyaan as $pertanyaan)
                             @if ($pertanyaan->id == $a->id_quisioner_catin)
-                                <td class="border_all" style="text-align: center;">{{ strtoupper($a->detail) }}</td>
+                                <td class="border_all" style="text-align: center;">
+                                    {{ $a->detail }}
                             @endif
                         @endforeach
-                    @else
-                        <td class="border_all" style="text-align: center;">-</td>
-                    @endif
-                @endforeach
+                    @endforeach
+                @else
+                    <td class="border_all" style="text-align: center;">-</td>
+                @endif
             </tr>
         @endforeach
     </tbody>
