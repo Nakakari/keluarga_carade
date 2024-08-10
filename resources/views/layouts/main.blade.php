@@ -106,6 +106,27 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
+        $(document).ready(function() {
+            <?php if (session('success')) { ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: "<?= session('success') ?>",
+                showConfirmButton: false,
+                timer: 1000
+            })
+            <?php } ?>
+            <?php if (session('error')) { ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: "<?= session('error') ?>",
+                showConfirmButton: false,
+                timer: 1500
+            })
+            <?php } ?>
+        });
+
         function numbersonly(myfield, e, dec) {
             var key;
             var keychar;
@@ -158,27 +179,7 @@
     @include('partials.navbar')
 
     <div class="px-8 md:px-20 py-8 overflow-x-hidden">
-        @if (session()->has('success') || session()->has('error'))
-            @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    {{ session()->get('success') }}
-                </div>
-            @endif
 
-            @if (session()->has('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    {{ session()->get('error') }}
-                </div>
-            @endif
-        @endif
         @yield('content')
     </div>
 </body>

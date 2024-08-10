@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnswersController;
+use App\Http\Controllers\CatinController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataKeluargaController;
@@ -71,12 +72,18 @@ Route::put('/data_user/{id}', [UserController::class, 'update'])->middleware('is
 Route::delete('/data_user/{id}', [UserController::class, 'destroy'])->middleware('is_admin');
 
 // CALON PENGANTIN PEREMPUAN
-// Route::get('/data_user', [UserController::class, 'index'])->name('user.index')->middleware('is_admin');
-// Route::get('/data_user/create', [UserController::class, 'create'])->name('user.create')->middleware('is_admin');
-// Route::get('/data_user/{id}/edit', [UserController::class, 'edit'])->name('user.edit')->middleware('is_admin');
-// Route::post('/data_user', [UserController::class, 'store'])->name('user.store')->middleware('is_admin');
-// Route::put('/data_user/{id}', [UserController::class, 'update'])->middleware('is_admin');
-// Route::delete('/data_user/{id}', [UserController::class, 'destroy'])->middleware('is_admin');
+Route::get('/catin', [CatinController::class, 'index'])->name('catin.index')->middleware('is_admin');
+Route::get('/catin/create', [CatinController::class, 'create'])->name('catin.create')->middleware('is_admin');
+Route::get('/catin/{id}/edit', [CatinController::class, 'edit'])->name('catin.edit')->middleware('is_admin');
+Route::post('/catin', [CatinController::class, 'store'])->name('catin.store')->middleware('is_admin');
+Route::put('/catin/{id}', [CatinController::class, 'update'])->name('catin.update')->middleware('is_admin');
+Route::delete('/catin/{id}', [CatinController::class, 'destroy'])->name('catin.delete')->middleware('is_admin');
+Route::get('/catin/quiz/{id}', [CatinController::class, 'quiz'])->name('catin.quiz')->middleware('is_admin');
+Route::post('/catin/quiz/save', [CatinController::class, 'quizStore'])->name('catin.quiz-store')->middleware('is_admin');
+Route::get('/catin/edit-quiz/{id}', [CatinController::class, 'quizEdit'])->name('catin.edit-quiz')->middleware('is_admin');
+Route::put('/catin/quiz/update', [CatinController::class, 'quizUpdate'])->name('catin.quiz-update')->middleware('is_admin');
+Route::delete('/catin/quiz/{id}', [CatinController::class, 'quizDestroy'])->name('catin.quiz-delete')->middleware('is_admin');
+Route::get('/catin/export', [CatinController::class, 'export'])->name('catin.export')->middleware('is_admin');
 
 require __DIR__ . '/base/base-wilayah.php';
 

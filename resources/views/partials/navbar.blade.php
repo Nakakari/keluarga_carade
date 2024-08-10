@@ -17,8 +17,8 @@
                 <li><a href="/data_keluarga"
                         class="font-bold {{ $title === 'Data Keluarga' || $title === 'Data Anggota Keluarga' ? 'text-[#C44830]' : 'text-black' }}">Data
                         Keluarga</a></li>
-                <li><a href="/kuesioner"
-                        class="font-bold {{ $title === 'Hasil Kuesioner' ? 'text-[#C44830]' : 'text-black' }}">Catin
+                <li><a href="{{ route('catin.index') }}"
+                        class="font-bold {{ $title === 'Catin' ? 'text-[#C44830]' : 'text-black' }}">Catin
                     </a></li>
                 <li><a href="/kuesioner"
                         class="font-bold {{ $title === 'Hasil Kuesioner' ? 'text-[#C44830]' : 'text-black' }}">Hasil
