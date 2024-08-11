@@ -518,10 +518,10 @@ class AnswersController extends Controller
     {
 
 
-        $families = DB::select("SELECT * FROM answers JOIN data_keluargas ON answers.nomor_kk = data_keluargas.nomor_kk JOIN data_anggota_keluargas ON data_keluargas.nomor_kk = data_anggota_keluargas.nomor_kk GROUP BY answers.nomor_kk LIMIT 10");
+        $families = DB::select("SELECT * FROM answers JOIN data_keluargas ON answers.nomor_kk = data_keluargas.nomor_kk JOIN data_anggota_keluargas ON data_keluargas.nomor_kk = data_anggota_keluargas.nomor_kk GROUP BY answers.nomor_kk");
 
         // $data['keluarga'] = DataKeluarga::all()->take(10);
-        $data['keluarga'] = DataAnggotaKeluarga::paginate(10);
+        $data['keluarga'] = DataAnggotaKeluarga::all();
         // dd($data);
 
         $data['title'] = 'Export';
