@@ -1,1 +1,1 @@
-<img src="logo-jpg-removebg-preview.png" alt="logo" style="height:210px; width: 210px;">
+<img src="{{ asset('logo-carade-baru.png') }}" alt="logo" style="height:220px; width: 220px;">

@@ -25,8 +25,12 @@ use App\Http\Controllers\UserController;
 
 // Route::get('/data_keluarga', [DataKeluargaController::class, 'index'])->name('data.keluarga.index');
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('auth.login');
+    return view('welcome');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('data.dashboard.index')->middleware('is_admin');

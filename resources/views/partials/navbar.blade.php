@@ -1,13 +1,14 @@
 <div class="flex-col justify-center items-center top-0 left-0 right-0 w-full shadow overflow-x-hidden">
     <div class="flex justify-between items-center px-8 sm:px-20 py-2">
         <div>
-            @if (Request::segment(3) != null)
+            {{-- @if (Request::segment(3) != null)
                 <img src="{{ asset('logo-jpg-removebg-preview.png') }}" alt="" class="w-20 h-20">
             @elseif (Request::segment(2) != null)
                 <img src="../logo-jpg-removebg-preview.png" alt="" class="w-20 h-20">
             @else
                 <img src="./logo-jpg-removebg-preview.png" alt="" class="w-20 h-20">
-            @endif
+            @endif --}}
+            <h4 style="padding:10px;"><b>{{ config('app.name', 'Laravel') }}</b></h4>
         </div>
         <div class="hidden md:block md:flex-col md:justify-center">
             <ul class="flex justify-center gap-6">
