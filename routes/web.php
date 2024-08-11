@@ -66,6 +66,7 @@ Route::get('/kuesioner/eksport', [AnswersController::class, 'eksport'])->name('k
 // Edit Kuisioner Keluarga - LAinnya
 Route::get('/keluarga-kuesioner/{nomor_kk}/edit', [AnswersController::class, 'editKeluarga'])->name('kuesioner.edit-keluarga')->middleware('is_admin');
 Route::put('/keluarga-kuesioner/update', [AnswersController::class, 'updateKeluarga'])->name('kuesioner.update-keluarga')->middleware('is_admin');
+Route::get('/kuesioner/cetak-export', [AnswersController::class, 'cetakExport'])->name('kuisioner.cetak-export')->middleware('is_admin');
 
 // user
 Route::get('/data_user', [UserController::class, 'index'])->name('user.index')->middleware('is_admin');

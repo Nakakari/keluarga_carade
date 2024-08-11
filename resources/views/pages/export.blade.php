@@ -160,18 +160,19 @@ use App\Models\Settings\wilayah\{Provinsi, Kelurahan, Kabupaten, Kecamatan};
 
     <script>
         document.getElementById('export-button').addEventListener('click', function() {
-            // Select the table element
-            var table = document.getElementById('data-table');
+            // // Select the table element
+            // var table = document.getElementById('data-table');
 
-            // Create a new workbook and worksheet
-            var workbook = XLSX.utils.book_new();
-            var worksheet = XLSX.utils.table_to_sheet(table);
+            // // Create a new workbook and worksheet
+            // var workbook = XLSX.utils.book_new();
+            // var worksheet = XLSX.utils.table_to_sheet(table);
 
-            // Add the worksheet to the workbook
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+            // // Add the worksheet to the workbook
+            // XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
-            // Generate and download the Excel file
-            XLSX.writeFile(workbook, 'exported_table.xlsx');
+            // // Generate and download the Excel file
+            // XLSX.writeFile(workbook, 'exported_table.xlsx');
+            window.open('{{ route('kuisioner.cetak-export') }}');
         });
     </script>
 @endsection

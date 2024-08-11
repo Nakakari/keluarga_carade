@@ -25,7 +25,7 @@ class AnswersExport implements FromCollection, ShouldAutoSize, WithHeadings, Wit
         // $families = DB::select("SELECT * FROM answers JOIN data_keluargas ON answers.nomor_kk = data_keluargas.nomor_kk JOIN data_anggota_keluargas ON data_keluargas.nomor_kk = data_anggota_keluargas.nomor_kk GROUP BY answers.nomor_kk");
         // return new Collection($families);
         $export = [];
-        $data = DataKeluarga::all()->take(10);
+        $data = DataKeluarga::all();
 
         foreach ($data as $i => $row) {
             $answers = [];
@@ -41,7 +41,7 @@ class AnswersExport implements FromCollection, ShouldAutoSize, WithHeadings, Wit
             $export[] = [
                 ($i + 1),
                 $row->user->name,
-                $row->nomor_kk,
+                '"' . $row->nomor_kk,
                 $row->wilayah_kerja_puskesmas,
                 $row->provinsi,
                 $row->kabkot,
@@ -77,8 +77,25 @@ class AnswersExport implements FromCollection, ShouldAutoSize, WithHeadings, Wit
             [
                 'No',
                 'Nama pegawai',
-                'Data Identitas Rumah', '', '', '', '', '', '', '', '', '',
-                'Data Anggota keluarga', '', '', '', '', '', '', '', '',
+                'Data Identitas Rumah',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                'Data Anggota keluarga',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
                 'Baduta',
                 'Anak Usia sekolah',
                 'Remaja putri',
@@ -86,7 +103,8 @@ class AnswersExport implements FromCollection, ShouldAutoSize, WithHeadings, Wit
                 'Lingkungan',
             ],
             [
-                '', '',
+                '',
+                '',
                 'No. Kartu Keluarga',
                 'Wilayah Kerja Puskesmas',
                 'Kab./Kota',

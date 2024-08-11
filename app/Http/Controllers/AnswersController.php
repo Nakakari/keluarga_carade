@@ -527,7 +527,10 @@ class AnswersController extends Controller
         $data['title'] = 'Export';
 
         return view('pages/export', $data);
+    }
 
+    public function cetakExport()
+    {
         return Excel::download(new AnswersExport, 'exported_answers.xlsx');
     }
 }
