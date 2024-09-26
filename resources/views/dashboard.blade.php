@@ -309,13 +309,15 @@
         let marker = null;
         $(document).ready(function() {
             @foreach ($koordinate as $i => $k)
-                // console.log("{{ $k['keluarga'] }}")
                 var menuju = "Keluarga Carade&#039;";
-                // console.log("{{ $k['keluarga'] }}")
                 var icon = "{{ $k['keluarga'] }}" == menuju ? myIcon2 : myIcon;
-                // console.log(menuju);
+
                 @if ($k['lat'] && $k['long'])
-                    L.marker([{{ $k['lat'] }}, {{ $k['long'] }}], {
+                    // Use @json to prevent unwanted formatting of lat/long values
+                    var lat = @json($k['lat']);
+                    var long = @json($k['long']);
+
+                    L.marker([lat, long], {
                             icon: icon
                         })
                         .bindPopup(
