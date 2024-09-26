@@ -88,7 +88,7 @@ class DashboardController extends Controller
 
         $pie = [
             'ket' => ["Keluarga Carade'", "Menuju Keluarga Carade'"],
-            'graph' => [ceil(($carade / $total) * 100), ceil(($menuju / 100) * 100)]
+            'graph' => [($total > 0 ? ceil(($carade / $total) * 100) : 0), ceil(($menuju / 100) * 100)]
         ];
         // dd($pie);
 
