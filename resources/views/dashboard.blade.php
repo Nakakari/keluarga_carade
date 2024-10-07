@@ -271,7 +271,7 @@
                 }
             }).then(function(res) {
                 res.koordinate.forEach((v, index) => {
-                    var menuju = "Keluarga Carade&#039;";
+                    var menuju = "Keluarga Carade'";
                     var icon = v.keluarga == menuju ? myIcon2 : myIcon;
 
                     if (v.lat && v.long) {
