@@ -265,7 +265,9 @@
                 url: '{{ route('data.dashboard.graph') }}',
                 type: 'GET',
                 data: {
-                    kelurahan: kelurahan
+                    kelurahan: kelurahan,
+                    kecamatan: $("#kecamatan").val(),
+                    kabkot: $("#kabkot").val(),
                 }
             }).then(function(res) {
                 res.koordinate.forEach((v, index) => {

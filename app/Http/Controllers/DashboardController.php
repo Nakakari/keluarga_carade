@@ -43,6 +43,12 @@ class DashboardController extends Controller
         if ($request->kelurahan) {
             $query .= " WHERE data_keluargas.kelurahan = '" . $request->kelurahan . "'";
         }
+        if ($request->kecamatan) {
+            $query .= " WHERE data_keluargas.kecamatan = '" . $request->kecamatan . "'";
+        }
+        if ($request->kabkot) {
+            $query .= " WHERE data_keluargas.kabkot = '" . $request->kabkot . "'";
+        }
         $query .= " GROUP BY answers.nomor_kk";
 
         $results = DB::select($query);
