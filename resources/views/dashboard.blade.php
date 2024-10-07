@@ -135,7 +135,6 @@
             <div class="mt-3 mb-3" id="map" style="height: 400px;"></div>
         </div>
     </div>
-    </div>
 
     <script type="text/javascript">
         let provinsi_id = 73;

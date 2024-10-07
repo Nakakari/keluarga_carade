@@ -514,15 +514,15 @@ class AnswersController extends Controller
         return $pdf->download('laporan-kuesioner.pdf');
     }
 
-    public function export()
+    public function export(Request $request)
     {
-
-
-        $families = DB::select("SELECT * FROM answers JOIN data_keluargas ON answers.nomor_kk = data_keluargas.nomor_kk JOIN data_anggota_keluargas ON data_keluargas.nomor_kk = data_anggota_keluargas.nomor_kk GROUP BY answers.nomor_kk");
-
         // $data['keluarga'] = DataKeluarga::all()->take(10);
-        $data['keluarga'] = DataAnggotaKeluarga::all();
-        // dd($data);
+        $data['keluarga'] = DataAnggotaKeluarga::select('*')
+            ->leftJoin('data_keluargas', 'data_keluargas.nomor_kk', '=', 'data_anggota_keluargas.nomor_kk');
+        $data['keluarga'] = isset($request->kabkot) ? $data['keluarga']->where('kabkot', $request->kabkot) : $data['keluarga'];
+        $data['keluarga'] = isset($request->kecamatan) ? $data['keluarga']->where('kecamatan', $request->kecamatan) : $data['keluarga'];
+        $data['keluarga'] = isset($request->desa) ? $data['keluarga']->where('kelurahan', $request->desa) : $data['keluarga'];
+        $data['keluarga'] = $data['keluarga']->get();
 
         $data['title'] = 'Export';
 
