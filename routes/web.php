@@ -34,6 +34,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('data.dashboard.index')->middleware('is_admin');
+Route::get('/chart', [DashboardController::class, 'graph'])->name('data.dashboard.graph')->middleware('is_admin');
 
 // keluarga
 Route::get('/data_keluarga', [DataKeluargaController::class, 'index'])->name('data.keluarga.index')->middleware('is_admin');

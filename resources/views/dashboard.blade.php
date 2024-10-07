@@ -88,7 +88,7 @@
                     </label>
                     <select
                         class="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none bg-gray-300 focus:bg-white"
-                        id="kabkot" onchange="getKecamatanByKabupaten(this.value)">
+                        id="kabkot" onchange="getKecamatanByKabupaten(this.value); graphShow();">
                         <option value=""></option>
                     </select>
                 </div>
@@ -98,7 +98,7 @@
                     </label>
                     <select
                         class="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none bg-gray-300 focus:bg-white"
-                        id="kecamatan" onchange="getKelurahanByKecamatan(this.value)">
+                        id="kecamatan" onchange="getKelurahanByKecamatan(this.value);graphShow();">
                         <option value=""></option>
                     </select>
                 </div>
@@ -108,7 +108,7 @@
                     </label>
                     <select name="kelurahan"
                         class="appearance-none block w-full rounded py-3 px-4 leading-tight focus:outline-none bg-gray-300 focus:bg-white"
-                        id="desa" onchange="getPieByKel(this.value)" required>
+                        id="desa" onchange="graphShow(this.value)" required>
                         <option value=""></option>
                     </select>
                 </div>
@@ -120,12 +120,12 @@
             <canvas id="pie"></canvas>
             <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
                 <!-- Chart legend -->
-                @foreach ($pie['ket'] as $item)
+                {{-- @foreach ($pie['ket'] as $item)
                     <div class="flex items-center">
                         <span class="inline-block w-3 h-3 mr-1 bg-blue-500 rounded-full"></span>
                         <span>{{ $item }}{{ $loop->first ? ' / ' : '' }}</span>
                     </div>
-                @endforeach
+                @endforeach --}}
             </div>
         </div>
         <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-700">
@@ -228,53 +228,6 @@
             });
         }
 
-        function getPieByKel(kelurahan_id) {
-            let urlKel = `{{ url('dashboard') }}?kelurahan=${kelurahan_id}`;
-            if (kelurahan_id == '') {
-                window.location.replace(`{{ url('dashboard') }}`)
-            } else {
-                window.location.replace(urlKel)
-
-            }
-        }
-
-        const pieConfig = {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data: [
-                        <?php foreach ($pie['graph'] as $v) { ?>
-                        <?= $v ?>,
-                        <?php } ?>
-                    ],
-                    /**
-                     * These colors come from Tailwind CSS palette
-                     * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
-                     */
-                    backgroundColor: ['#0694a2', '#1c64f2', '#7e3af2'],
-                    label: 'Dataset 1',
-                }, ],
-                labels: [<?php foreach ($pie['ket'] as $v) { ?> "<?= $v ?> (%)",
-                    <?php } ?>
-                ],
-            },
-            options: {
-                responsive: true,
-                cutoutPercentage: 80,
-                /**
-                 * Default legends are ugly and impossible to style.
-                 * See examples in charts.html to add your own legends
-                 *  */
-                legend: {
-                    display: false,
-                },
-            },
-        }
-
-        // change this to the id of your chart element in HMTL
-        const pieCtx = document.getElementById('pie')
-        window.myPie = new Chart(pieCtx, pieConfig)
-
         //map
         var myIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
@@ -307,24 +260,70 @@
         });
         map.addLayer(layer);
         let marker = null;
-        $(document).ready(function() {
-            @foreach ($koordinate as $i => $k)
-                // console.log("{{ $k['keluarga'] }}")
-                var menuju = "Keluarga Carade&#039;";
-                // console.log("{{ $k['keluarga'] }}")
-                var icon = "{{ $k['keluarga'] }}" == menuju ? myIcon2 : myIcon;
-                // console.log(menuju);
-                @if ($k['lat'] && $k['long'])
-                    L.marker(["{{ str_replace(' ', '', $k['lat']) }}", "{{ str_replace(' ', '', $k['long']) }}"], {
-                            icon: icon
-                        })
-                        .bindPopup(
-                            "No KK: " + "{{ $k['nomor_kk'] }}" + '<br>' +
-                            "Keluarga: " + "{{ $k['keluarga'] }}" + '<br>'
-                        )
-                        .addTo(map);
-                @endif
-            @endforeach
-        });
+
+        function graphShow(kelurahan) {
+            $.ajax({
+                url: '{{ route('data.dashboard.graph') }}',
+                type: 'GET',
+                data: {
+                    kelurahan: kelurahan
+                }
+            }).then(function(res) {
+                res.koordinate.forEach((v, index) => {
+                    var menuju = "Keluarga Carade&#039;";
+                    var icon = v.keluarga == menuju ? myIcon2 : myIcon;
+
+                    if (v.lat && v.long) {
+                        L.marker([(v.lat).replace(" ", ""),
+                                (v.long).replace(" ", "")
+                            ], {
+                                icon: icon
+                            })
+                            .bindPopup(
+                                "No KK: " + v.nomor_kk + '<br>' +
+                                "Keluarga: " + v.keluarga + '<br>'
+                            )
+                            .addTo(map);
+                    }
+                });
+
+                // PIE
+                // Fix for PIE chart data
+                const pieData = res.pie.graph.map((data) => data);
+                const pieLabels = res.pie.ket.map((label) => label + " (%)");
+
+                const pieConfig = {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: pieData,
+                            /**
+                             * These colors come from Tailwind CSS palette
+                             * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
+                             */
+                            backgroundColor: ['#0694a2', '#1c64f2', '#7e3af2'],
+                            label: 'Dataset 1',
+                        }],
+                        labels: pieLabels,
+                    },
+                    options: {
+                        responsive: true,
+                        cutoutPercentage: 80,
+                        /**
+                         * Default legends are ugly and impossible to style.
+                         * See examples in charts.html to add your own legends
+                         */
+                        legend: {
+                            display: false,
+                        },
+                    },
+                }
+
+                // change this to the id of your chart element in HTML
+                const pieCtx = document.getElementById('pie');
+                window.myPie = new Chart(pieCtx, pieConfig);
+            });
+
+        }
     </script>
 @endsection

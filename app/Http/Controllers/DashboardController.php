@@ -13,6 +13,28 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+
+        // dd($pie);
+
+        $j_keluarga = DataKeluarga::all()->count();
+        $j_admin = count(User::where('roles', 'admin')->get());
+        $j_surveyor = count(User::where('roles', 'surveyor')->get());
+        $j_survei = (new Answers)->jumlahSurvei();
+
+        $data = [
+            'title' => 'Dashboard',
+            'j_keluarga' => $j_keluarga,
+            'j_survei' => $j_survei,
+            'j_admin' => $j_admin,
+            'j_surveyor' => $j_surveyor,
+
+        ];
+
+        return view('dashboard', $data);
+    }
+
+    public function graph(Request $request)
+    {
         $query = "SELECT * FROM answers
         LEFT JOIN questionnaire_items ON answers.question_item_id = questionnaire_items.id
         LEFT JOIN questionnaires ON answers.question_id = questionnaires.id
@@ -90,23 +112,10 @@ class DashboardController extends Controller
             'ket' => ["Keluarga Carade'", "Menuju Keluarga Carade'"],
             'graph' => [($total > 0 ? ceil(($carade / $total) * 100) : 0), ceil(($menuju / 100) * 100)]
         ];
-        // dd($pie);
 
-        $j_keluarga = DataKeluarga::all()->count();
-        $j_admin = count(User::where('roles', 'admin')->get());
-        $j_surveyor = count(User::where('roles', 'surveyor')->get());
-        $j_survei = (new Answers)->jumlahSurvei();
-
-        $data = [
-            'title' => 'Dashboard',
-            'j_keluarga' => $j_keluarga,
-            'j_survei' => $j_survei,
-            'j_admin' => $j_admin,
-            'j_surveyor' => $j_surveyor,
+        return [
             'koordinate' => $res,
             'pie' => $pie,
         ];
-
-        return view('dashboard', $data);
     }
 }
