@@ -532,6 +532,13 @@ class AnswersController extends Controller
         }
 
         $data['keluarga'] = $query->get();
+        $data['questions'] = [
+            'Baduta' => $this->getQuestionPerCategory('Baduta'),
+            'Anak SD' => $this->getQuestionPerCategory('Anak SD'),
+            'Remaja Putri' => $this->getQuestionPerCategory('Remaja Putri'),
+            'Ibu atau Ibu Hamil' => $this->getQuestionPerCategory('Ibu atau Ibu Hamil'),
+            'Lingkungan' => $this->getQuestionPerCategory('Lingkungan'),
+        ];
         $data['title'] = 'Export';
 
         return view('pages/export', $data);
@@ -541,5 +548,10 @@ class AnswersController extends Controller
     public function cetakExport()
     {
         return Excel::download(new AnswersExport, 'exported_answers.xlsx');
+    }
+
+    public function getQuestionPerCategory($category)
+    {
+        return Questionnaires::where('question_category', $category)->get();
     }
 }
