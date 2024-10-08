@@ -10,7 +10,8 @@ use App\Models\Settings\wilayah\{Provinsi, Kelurahan, Kabupaten, Kecamatan};
         <div class="row">
             <div class="col-sm-12 table-responsive">
                 <button id="export-button" class="btn btn-success mb-3">Export to Excel</button>
-                {!! $keluarga->links('pagination::bootstrap-4') !!}
+                {!! $keluarga->appends(request()->except('page'))->links('pagination::bootstrap-4') !!}
+
                 <table class="table table-bordered text-nowrap" id="data-table">
                     <thead>
                         <tr>
