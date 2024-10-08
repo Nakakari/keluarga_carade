@@ -516,18 +516,27 @@ class AnswersController extends Controller
 
     public function export(Request $request)
     {
-        // $data['keluarga'] = DataKeluarga::all()->take(10);
-        $data['keluarga'] = DataAnggotaKeluarga::select('*')
+        $query = DataAnggotaKeluarga::select('*')
             ->leftJoin('data_keluargas', 'data_keluargas.nomor_kk', '=', 'data_anggota_keluargas.nomor_kk');
-        $data['keluarga'] = isset($request->kabkot) ? $data['keluarga']->where('kabkot', $request->kabkot) : $data['keluarga'];
-        $data['keluarga'] = isset($request->kecamatan) ? $data['keluarga']->where('kecamatan', $request->kecamatan) : $data['keluarga'];
-        $data['keluarga'] = isset($request->desa) ? $data['keluarga']->where('kelurahan', $request->desa) : $data['keluarga'];
-        $data['keluarga'] = $data['keluarga']->get();
 
+        if ($request->has('kabkot')) {
+            $query->where('kabkot', $request->kabkot);
+        }
+
+        if ($request->has('kecamatan')) {
+            $query->where('kecamatan', $request->kecamatan);
+        }
+
+        if ($request->has('desa')) {
+            $query->where('kelurahan', $request->desa);
+        }
+
+        $data['keluarga'] = $query->get();
         $data['title'] = 'Export';
 
         return view('pages/export', $data);
     }
+
 
     public function cetakExport()
     {
