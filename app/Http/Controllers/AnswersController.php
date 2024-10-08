@@ -531,7 +531,7 @@ class AnswersController extends Controller
             $query->where('kelurahan', $request->desa);
         }
 
-        $data['keluarga'] = $query->get();
+        $data['keluarga'] = $query->paginate(50);
         $data['questions'] = [
             'Baduta' => $this->getQuestionPerCategory('Baduta'),
             'Anak SD' => $this->getQuestionPerCategory('Anak SD'),
