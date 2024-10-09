@@ -75,7 +75,7 @@ use App\Models\Settings\wilayah\{Provinsi, Kelurahan, Kabupaten, Kecamatan};
 
                                 @foreach ($questions as $category => $categoryQuestions)
                                     @foreach ($categoryQuestions as $question)
-                                        <td>{{ getAnswer($question->id, $row->id)->answer ?? '' }}</td>
+                                        <td>{{ getAnswer($question->id, $row->id_anggota_keluarga)->answer ?? '' }}</td>
                                     @endforeach
                                 @endforeach
                             </tr>

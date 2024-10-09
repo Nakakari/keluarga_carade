@@ -516,7 +516,7 @@ class AnswersController extends Controller
 
     public function export(Request $request)
     {
-        $query = DataAnggotaKeluarga::select('*')
+        $query = DataAnggotaKeluarga::select('*', 'data_anggota_keluargas.id as id_anggota_keluarga')
             ->leftJoin('data_keluargas', 'data_keluargas.nomor_kk', '=', 'data_anggota_keluargas.nomor_kk');
 
         if ($request->has('kabkot')) {
